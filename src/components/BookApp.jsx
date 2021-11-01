@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { bookSearch } from "./api";
 import BookItem from "./BookItem";
 import Search from "./Search";
@@ -58,15 +58,28 @@ function BookApp({ themeToggler }) {
 
   return (
     <Book query={query}>
-      <Header/>
-      <SideBar selected={selected} totalPrice={totalPrice} />
-      <Head query={query}>
-        <Search
-          enter={handleKeyEnter}
-          onTextUpdate={onTextUpdate}
-          text={text}
-        />
-      </Head>
+      {!query && <Header />}
+      {query && <Button onClick={() => setQuery("")}>뒤로가기</Button>}
+      {query && <SideBar selected={selected} totalPrice={totalPrice} />}
+      {!query && (
+        <Main>
+          <Title>
+            <h1>Type the book you want to find.</h1>
+            <h3>Let's search on Kakao API to find the book we want.</h3>
+          </Title>
+          <Image
+            src="https://www.free-css.com/assets/files/free-css-templates/preview/page271/seogram/assets/img/banner_image_1.svg"
+            alt=""
+          />
+          <SearchBar query={query}>
+            <Search
+              enter={handleKeyEnter}
+              onTextUpdate={onTextUpdate}
+              text={text}
+            />
+          </SearchBar>
+        </Main>
+      )}
       {query &&
         books.map((book, index) => (
           <BookItem
@@ -82,6 +95,7 @@ function BookApp({ themeToggler }) {
             deleteList={deleteList}
           />
         ))}
+
       <DarkMode themeToggler={themeToggler} />
     </Book>
   );
@@ -94,30 +108,49 @@ const Book = styled.div`
   height: 100vh;
   align-items: center;
   flex-direction: column;
-  background: url("https://www.kakaocommerce.com/resources/images/pc/visual_ad.png")
-    center/cover no-repeat;
-  background-size: 100% 78%;
-  ${(props) => {
-    if (props.query) {
-      return css`
-        background: none;
-      `;
-    }
-  }}
-
 `;
-const Head = styled.div`
+
+const Main = styled.div`
+  position: relative;
   display: flex;
-  width: 55%;
-  justify-content: space-between;
-  margin: 1.5em 0;
-  ${(props) => {
-    if (!props.query) {
-      return css`
-        height: 90vh;
-        align-items: center;
-        justify-content: space-around;
-      `;
-    }
-  }}
+  width: 85%;
+  height: 100vh;
+  background-color: #f6f5fb;
+`;
+
+const Title = styled.div`
+  padding: 2em;
+  margin-top: 5em;
+  color: #645f88;
+  h1 {
+    font-size: 3rem;
+  }
+  h3 {
+    font-size: 1.3em;
+  }
+`;
+
+const Image = styled.img`
+  position: relative;
+  top: 5em;
+  right: 3em;
+  width: 34em;
+  height: 28em;
+`;
+const SearchBar = styled.div`
+  position: absolute;
+  left: 3em;
+  bottom: 13em;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  top: 1em;
+  left: 2em;
+  padding: 0.8em 1em;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #5c5c5c;
+  background-color: #e0dcfc;
 `;

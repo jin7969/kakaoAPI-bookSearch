@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-export default function Header() {
+export default function Header({login}) {
   return (
-    <Head>
+    <Head login={login}>
       <Logo>Soo<span>Gram.</span></Logo>
       <List>
         <li>Home</li>
@@ -18,10 +18,10 @@ export default function Header() {
   )
 }
 const Head = styled.div`
+  position: ${props=> props.login ? 'absolute' : 'static'};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: absolute;
   width: 100%;
   height: 4.5em;
   top: 0;

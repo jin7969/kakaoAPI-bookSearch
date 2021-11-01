@@ -6,7 +6,7 @@ import Header from './Header'
 export default function LoginPage() {
   return (
     <Div>
-      <Header/>
+      <Header login={true}/>
       <Login>
         <h1>로그인 하기</h1>
         <List >
